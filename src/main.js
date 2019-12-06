@@ -10,6 +10,7 @@ const firebaseConfig = {
   measurementId: 'G-WF96L4V7ZS',
 };
   // Initialize Firebase
+// eslint-disable-next-line no-undef
 const proy = firebase.initializeApp(firebaseConfig);
 console.log(proy.name);
 
@@ -22,6 +23,7 @@ enviar.addEventListener('click', () => {
     const errorCode = error.code;
     const errorMessage = error.message;
     alert(errorMessage);
+    console.log(errorCode);
   });
 });
 // firebase.analytics();
