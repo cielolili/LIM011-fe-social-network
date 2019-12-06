@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const firebaseConfig = {
   apiKey: 'AIzaSyAa1kK8-5tcSq8d-ftwMRXWqrPWqdmB7so',
   authDomain: 'red-social-e6134.firebaseapp.com',
