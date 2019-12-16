@@ -1,16 +1,19 @@
-// eslint-disable-next-line import/extensions
-import SignIn from './view/SignIn.js';
-import Login from './view/login.js';
+import SignIn from './view/signin.js';
+import LogIn from './view/login.js';
+import Home from './view/home.js';
 
 const changeTmp = (hash) => {
   if (hash === '#/' || hash === '' || hash === '#') {
-    return viewTmp('#/Login');
-  } else if (hash === '#/SignIn') {
+    return viewTmp('#/LogIn');
+  } if (hash === '#SignIn') {
     return viewTmp('#/SignIn');
-  } else if (hash === '#/login') {
-    return viewTmp('#/Login') }
-  
-  return viewTmp('#/SignIn');
+  } if (hash === '#/Home') {
+    return viewTmp('#/Home');
+  }
+  if (hash === '#/LogIn' || hash === '#/SignIn' || hash === '#/Home') {
+    return viewTmp(hash);
+  }
+  return viewTmp('#/LogIn');
 };
 
 const viewTmp = (routers) => {
@@ -19,11 +22,14 @@ const viewTmp = (routers) => {
   root.innerHTML = '';
   // eslint-disable-next-line default-case
   switch (router) {
+    case 'LogIn':
+      root.appendChild(LogIn());
+      break;
     case 'SignIn':
       root.appendChild(SignIn());
       break;
-    case 'Login':
-      root.appendChild(Login());
+    case 'Home':
+      root.appendChild(Home());
       break;
   }
 };

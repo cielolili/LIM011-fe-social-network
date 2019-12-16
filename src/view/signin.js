@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/extensions
 import { signInOnSubmit } from '../view-controller.js';
 
 export default () => {

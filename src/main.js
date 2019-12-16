@@ -11,7 +11,6 @@ const init = () => {
     appId: '1:446106510838:web:38d9a0f0a4f52f9359d3d7',
     measurementId: 'G-WF96L4V7ZS',
   };
-  // eslint-disable-next-line no-undef
   firebase.initializeApp(firebaseConfig);
   initRouter();
 };
