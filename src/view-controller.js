@@ -4,6 +4,7 @@ import {
 } from './controller/controller-firebase.js';
 // eslint-disable-next-line import/prefer-default-export
 const changeHash = (hash) => {
+  // eslint-disable-next-line no-restricted-globals
   location.hash = hash;
 };
 export const signInOnSubmit = () => {
@@ -29,6 +30,7 @@ export const logInOnSubmit = () => {
     .then(() => changeHash('/Home'))
     .catch((error) => {
       const errorMessage = error.message;
+      // eslint-disable-next-line no-alert
       alert(errorMessage);
     });
 };
