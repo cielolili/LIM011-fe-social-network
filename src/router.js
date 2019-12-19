@@ -6,23 +6,24 @@ const viewTmp = (routers) => {
   const router = routers.substr(2, routers.length - 2);
   const root = document.getElementById('root');
   root.innerHTML = '';
+  const user = firebase.auth().currentUser;
   // eslint-disable-next-line default-case
-  switch (router) {
-    case 'LogIn':
-      root.appendChild(LogIn());
-      break;
-    case 'SignIn':
-      root.appendChild(SignIn());
-      break;
-    case 'Home':
+  if (router === 'LogIn') {
+    root.appendChild(LogIn());
+  } if (router === 'SignIn') {
+    root.appendChild(SignIn());
+  } if (router === 'Home') {
+    if (user != null) {
       root.appendChild(Home());
-      break;
+    } else {
+      root.appendChild(LogIn());
+    }
   }
 };
 const changeTmp = (hash) => {
   if (hash === '#/' || hash === '' || hash === '#') {
     return viewTmp('#/LogIn');
-  } if (hash === '#SignIn') {
+  } if (hash === '#/SignIn') {
     return viewTmp('#/SignIn');
   } if (hash === '#/Home') {
     return viewTmp('#/Home');

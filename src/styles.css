@@ -1,48 +1,141 @@
-body{ 
-    margin: 0px;
+
+body {
+    margin: 0;
 }
+
 form{
     background-image: url(https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-1.2.1&auto=format&fit=crop&w=1831&q=80);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    /* background-image: url(./imagenes/imagen-fondo.jpg); */
     background-size: cover;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     height: 100vh;
 }
+
+h2 {
+    font-family: 'Lobster', cursive;
+    font-size: 45px;
+    color: #3c4859;
+    margin: 0 0 15px;
+}
+
+p {
+    color: #52585e;
+}
+
  .container-form {
-    width: 290px;
-    height: 370px;
+    width: 330px;
+    height: 480px;
     align-content: center;
     border-radius: 9px;
-    border-style: solid;
-    border-color: black;
-    background-color: white;
-    margin-left: 250px;
-    text-align: center; 
+    border: 1px solid #d3dce6;
+    background-color: #FCFFFD;
+    text-align: center;
+    margin: 0% 15%;
+    box-shadow: 5px 5px 10px #aaaaaa;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    box-shadow: 10px 10px 10px #aaaaaa;
+    align-items: center;
 }
+
  .txt-form{
     display: block;
-    margin-left: 15px;
-    margin-bottom: 8px;
-    padding-left: 5px;
-    width: 250px;
+    margin-top: 15px;
+    padding: 0 5px;
+    width: 80%;
     height: 40px;
-    border-style: solid;
-    border-color:rgb(82, 100, 181) ;  
+    border: 1px solid #d3dce6;
+    border-radius: 5px;
 }
+
+.txt-form[type="email"] {
+    background-image: url(./imagenes/correo.svg);
+    background-repeat: no-repeat;
+    background-size: 6%;
+    background-position: center right;
+    background-position-x: 95%;
+}
+
+.txt-form[type="password"] {
+    background-image: url(./imagenes/candado.svg);
+    background-repeat: no-repeat;
+    background-size: 6%;
+    background-position: center right;
+    background-position-x: 95%;
+}
+
 .btn-form{
     margin-top: 15px;
-    width: 250px;
-    height: 40px;  
+    width: 80%;
+    height: 40px;
+    border: none;
+    font-size: 20px;
+    color: #ffffff;
+    border-radius: 5px;
+    background: rgba(219, 57, 52, 0.76);
+    background: #5dcad8;
+    /* background: #FFC857;*/
+    cursor: pointer;
 }
-.container{
-    background-color: pink;
+
+/* Estilos de botones de redes sociales (Google - Facebook)*/
+.container-btn{
+    display: flex;
+    justify-content: center;
 }
-h2{
-    font-family: 'Lobster', cursive;
-   
+
+.btn-form-icon {
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0 3px;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(241,243,244,1);
+    transition: 0.5s;
 }
+
+.btn-form-icon img {
+    border-radius: 50%;
+    width: 65%;
+}
+
+.btn-form-icon:hover, .btn-form-icon:link, .btn-form-icon:visited, .btn-form-icon:active {
+    border-radius: 50%;
+    filter: grayscale(100%);
+}
+
+/* css de home */
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(46, 202, 216);
+  }
+
+  #btn-home, #btn-profile {
+    float: left;
+  }
+  #btn-cerrar{
+      float: right;
+  }
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  li a:hover:not(.active) {
+    background-color: rgb(56, 128, 146);
+  }

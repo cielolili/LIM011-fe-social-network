@@ -1,4 +1,4 @@
-import { logIn, signIn } from '../src/controller/controller-firebase.js';
+import { logIn, signIn, googleLogin } from '../src/controller/controller-firebase.js';
 
 const firebasemock = require('firebase-mock');
 
@@ -22,8 +22,24 @@ describe('logIn', () => {
 });
 
 describe('Iniciar sesiòn', () => {
-  it('Debería poder iniciar sesion', () => logIn('front@end.la', '123456')
+  it('Debería poder iniciar sesion', () => logIn('cielo@hotmail.com', '123456')
     .then((user) => {
-      expect(user.email).toBe('front@end.la');
+      expect(user.email).toBe('cielo@hotmail.com');
     }));
+});
+describe('signIn', () => {
+  it('deberìa poder registrar con email y password', () => {
+    expect(typeof signIn).toBe('function');
+  });
+});
+describe('Registrarse', () => {
+  it('debería poder registrarse', () => signIn('cielo@hotmail.com', '123456')
+    .then((user) => {
+      expect(user.email).toBe('cielo@hotmail.com');
+    }));
+});
+describe('googleLogin', () => {
+  it('debería poder iniciar sesiòn con email y password', () => {
+    expect(typeof googleLogin).toBe('function');
+  });
 });
