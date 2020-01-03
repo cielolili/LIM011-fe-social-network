@@ -175,6 +175,9 @@ anterior en la siguiente sección.
 * [x] Uso ES modules
 =======
 * [ ] [Consumo de Promesas](https://scotch.io/tutorials/javascript-promises-for-dummies#toc-consuming-promises)
+<<<<<<< HEAD
+* [x] Uso ES modules
+=======
 * [X] Uso ES modules
 >>>>>>> 8b4482c7d27a93a63410c51f9c925ba41ee8fa3b
 ([`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
@@ -213,6 +216,7 @@ anterior en la siguiente sección.
 ### Organización en Github
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 * [x] Projects // es como trello
 * [x] Issues // tareas
 * [ ] Labels // Etiquetas. Ordenar los problemas y priorizarlos.
@@ -221,6 +225,16 @@ anterior en la siguiente sección.
 ### Buenas prácticas de desarrollo
 
 * [x] Modularización
+=======
+* [x] Projects
+* [ ] Issues //tareas
+* [x] Labels //etiquetas
+* [ ] Milestones
+
+### Buenas prácticas de desarrollo
+
+* [ ] Modularización
+>>>>>>> b95ee306e7a4ad0985bf4ec2701c4f73815cf9c2
 * [x] Nomenclatura / Semántica
 * [x] Linting
 =======

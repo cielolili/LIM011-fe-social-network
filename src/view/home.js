@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 /* eslint-disable import/extensions */
 import { signOutSubmit, addNoteOnSubmit, deleteNoteOnClick } from '../view-controller.js';
 
@@ -5,14 +6,16 @@ const itemNote = (objNote) => {
   const divElement = document.createElement('div');
   divElement.innerHTML = `
     <div class="container-post">
-      <div class="post-avatar">
-      <p>Publicado por: ${objNote.usuario}</p>
+    <div class="btn-post">
+    <span id="btn-deleted-${objNote.id}"><img src="imagenes/delete.png" /></span>
+    </div>
+      <div class="photo-avatar">
+        <p><img src="${objNote.avatar}" class="avatar-usuario"></p>
+        <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p>
       </div>
-      <p><img src="${objNote.avatar}" class="foto-usuario"></p>        
-      <p>${objNote.title}</p>     
-          <button id="btn-deleted-${objNote.id}">
-          <i>delete</i>
-        </button>
+      <section class="texto-post">
+        <p>${objNote.title}</p>
+        </section>
     </div>
   `;
   console.log(objNote.title);
@@ -37,16 +40,20 @@ export default (notes) => {
     <!-- form add note -->
     <section>
       <figure>
-        <div class="portada"> </div>
+        <div class="portada">
+        
+        </div>
         <div class="info-usuario"> 
-        <img src="${user.photoURL}" alt="" class="foto-usuario"> <p id="user-name">${user.displayName}</p>
-
+        <p><img src="${user.photoURL}" class="foto-usuario"></p>
+        <h3 id ="nombre-usuario">${user.displayName}</h3>
         </div>
       </figure>
       <main>
         <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
+        <section id="botones-post">
         <button id="btn-subir-img"> imagen </button>
         <button type="button" id="btn-add-note">Publicar</button>
+        </section>
       </main>
     </section>
     <!-- notes -->
