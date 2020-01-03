@@ -1,3 +1,4 @@
+
 import { initRouter } from './router.js';
 
 const init = () => {
