@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable import/extensions */
 import {
-  signIn, logIn, googleLogin, facebookLogin, signOut, addNote, deleteNote,
+  signIn, logIn, googleLogin, facebookLogin, signOut, addNote, deleteNote, saveUsers, editNote,
 } from './controller/controller-firebase.js';
 
 const changeHash = (hash) => {
@@ -35,12 +35,15 @@ export const loginWithGoogle = () => {
   googleLogin().then(() => {
     accesoLogin();
     changeHash('/Home');
+    saveUsers();
   });
 };
 
 export const loginWithFacebook = () => {
   facebookLogin().then(() => {
+    accesoLogin();
     changeHash('/Home');
+    saveUsers();
   });
 };
 
@@ -75,13 +78,23 @@ export const addNoteOnSubmit = (event) => {
       .then((docRef) => {
         input.value = '';
         console.log('Document written with ID: ', docRef.id);
-      //  data.message = 'Nota agregada';
+        console.log(docRef);
       }).catch((error) => {
         input.value = '';
         console.error('Error adding document: ', error);
-      //  data.message = 'Lo sentimos, no se pudo agregar la nota';
       });
   }
 };
 
 export const deleteNoteOnClick = (objNote) => deleteNote(objNote.id);
+
+export const editNoteOnSubmit = (objNote) => {
+  const input = document.getElementById('input-new-note');
+  editNote(input.value, objNote)
+    .then(() => {
+      console.log('Document successfully updated!');
+    })
+    .catch((error) => {
+      console.error('Error updating document: ', error);
+    });
+};

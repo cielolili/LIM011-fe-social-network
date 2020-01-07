@@ -1,28 +1,35 @@
 /* eslint-disable import/named */
 /* eslint-disable import/extensions */
-import { signOutSubmit, addNoteOnSubmit, deleteNoteOnClick } from '../view-controller.js';
+import {
+  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editar,
+} from '../view-controller.js';
 
 const itemNote = (objNote) => {
+  const user = firebase.auth().currentUser;
   const divElement = document.createElement('div');
   divElement.innerHTML = `
     <div class="container-post">
     <div class="btn-post">
-    <span id="btn-deleted-${objNote.id}"><img src="imagenes/delete.png" /></span>
+    <span id="btn-deleted-${objNote.id}">${user.uid === objNote.uid ? '<img id="trash" src="imagenes/delete.png"/>' : ''}</span>
+    <button type="button" id="btn-edit-${objNote.id}">Editar</button>
+
     </div>
       <div class="photo-avatar">
-        <p><img src="${objNote.avatar}" class="avatar-usuario"></p>
-        <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p>
+      <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
+       <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p> 
+      
       </div>
       <section class="texto-post">
         <p>${objNote.title}</p>
         </section>
     </div>
   `;
-  console.log(objNote.title);
 
   // agregando evento de click al btn eliminar una nota
   divElement.querySelector(`#btn-deleted-${objNote.id}`)
     .addEventListener('click', () => deleteNoteOnClick(objNote));
+  divElement.querySelector(`#btn-edit-${objNote.id}`)
+    .addEventListener('click', () => editar(objNote));
   return divElement;
 };
 
@@ -63,7 +70,6 @@ export default (notes) => {
     </section>
   `;
   home.innerHTML = formContent;
-  console.log(user.photoURL);
   const btnLogOut = home.querySelector('#btn-cerrar');
   btnLogOut.addEventListener('click', signOutSubmit);
   const buttonAddNote = home.querySelector('#btn-add-note');
