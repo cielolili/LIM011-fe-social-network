@@ -1,12 +1,10 @@
 /* eslint-disable default-case */
 /* eslint-disable import/no-named-as-default-member */
 import SignIn from './view/signin.js';
-// eslint-disable-next-line import/no-named-as-default
-// eslint-disable-next-line import/no-named-as-default-member
-// eslint-disable-next-line import/no-named-as-default
 import LogIn from './view/login.js';
 import Home from './view/home.js';
 
+// eslint-disable-next-line import/named
 import { getNotes } from './controller/controller-firebase.js';
 
 const viewTmp = (routers) => {

@@ -1,7 +1,7 @@
 /* eslint-disable import/named */
 /* eslint-disable import/extensions */
 import {
-  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editar,
+  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editNoteOnSubmit,
 } from '../view-controller.js';
 
 const itemNote = (objNote) => {
@@ -10,38 +10,58 @@ const itemNote = (objNote) => {
   divElement.innerHTML = `
     <div class="container-post">
     <div class="btn-post">
-    <span id="btn-deleted-${objNote.id}">${user.uid === objNote.uid ? '<img id="trash" src="imagenes/delete.png"/>' : ''}</span>
-    <button type="button" id="btn-edit-${objNote.id}">Editar</button>
-
+    <span id="btn-deleted-${objNote.id}">${user.uid === objNote.uid ? '<img id="trash" src="imagenes/delete.png" title="Eliminar"/>' : ''}</span>
+    
+    <span id="btn-pen-${objNote.id}">${user.uid === objNote.uid ? '<img id="btn-pen" src="imagenes/edit-button.svg" title="Editar"/>' : ''}</span>
     </div>
       <div class="photo-avatar">
-      <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
-       <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p> 
-      
+        <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
+        <div class = "date">
+        <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p>
+        <p id ="nombre-usuario">Publicado el día ${objNote.date.toDate()}</p>
       </div>
-      <section class="texto-post">
+        </div>
+      <section class="texto-post" id="texto-post-${objNote.id}">
         <p>${objNote.title}</p>
-        </section>
+      </section>
     </div>
   `;
+
+  // divElement.querySelector(`#btn-edit-${objNote.id}`).style.display = 'none';
+
+  divElement.querySelector(`#btn-pen-${objNote.id}`)
+    .addEventListener('click', () => {
+      const post = document.querySelector(`#texto-post-${objNote.id}`);
+      post.innerHTML = `
+      <div class="">
+        <textarea id="input-edit-note"></textarea>
+        <button id="btn-edit-${objNote.id}">Guardar cambios</button>
+      </div>
+      `;
+      console.log(post.querySelector(`#btn-edit-${objNote.id}`));
+      post.querySelector(`#btn-edit-${objNote.id}`)
+        .addEventListener('click', () => editNoteOnSubmit(objNote));
+      // divElement.querySelector(`#btn-edit-${objNote.id}`).style.display = 'block';
+      return post;
+    });
 
   // agregando evento de click al btn eliminar una nota
   divElement.querySelector(`#btn-deleted-${objNote.id}`)
     .addEventListener('click', () => deleteNoteOnClick(objNote));
-  divElement.querySelector(`#btn-edit-${objNote.id}`)
-    .addEventListener('click', () => editar(objNote));
+
   return divElement;
 };
 
 export default (notes) => {
-  const user = firebase.auth().currentUser;
   const home = document.createElement('div');
+  home.classList.add('home-style');
+  const user = firebase.auth().currentUser;
   const formContent = `
     <nav>
       <ul>
-        <li><a id="btn-profile">Profile</a></li>
-        <li><a id="btn-home">Home</a></li>
-        <li><a id="btn-cerrar">Sign out</a></li>
+        <li><a id="btn-profile">Perfil</a></li>
+        <li><a id="btn-home">Inicio</a></li>
+        <li><a id="btn-cerrar">Cerrar sesión</a></li>
       </ul>
     </nav>
     <!-- form add note -->
@@ -51,8 +71,8 @@ export default (notes) => {
         
         </div>
         <div class="info-usuario"> 
-        <p><img src="${user.photoURL}" class="foto-usuario"></p>
-        <h3 id ="nombre-usuario">${user.displayName}</h3>
+        <img src="${user.photoURL}" class="foto-usuario">
+        <div><h3 id ="nombre-usuario">${user.displayName}</h3></div>
         </div>
       </figure>
       <main>
