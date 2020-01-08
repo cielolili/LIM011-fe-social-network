@@ -1,7 +1,7 @@
 /* eslint-disable import/named */
 /* eslint-disable import/extensions */
 import {
-  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editNoteOnSubmit,
+  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editNoteOnSubmit, countLoveOnClick, menosLove,
 } from '../view-controller.js';
 
 const itemNote = (objNote) => {
@@ -16,14 +16,18 @@ const itemNote = (objNote) => {
     </div>
       <div class="photo-avatar">
         <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
-        <div class = "date">
-        <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p>
-        <p id ="nombre-usuario">Publicado el día ${objNote.date.toDate()}</p>
-      </div>
+        <div class="date">
+          <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p>
+          <p id ="nombre-usuario">Publicado el día ${objNote.date.toDate()}</p>
         </div>
+      </div>
       <section class="texto-post" id="texto-post-${objNote.id}">
         <p>${objNote.title}</p>
-      </section>
+        </section>
+        <div class = "reactions">
+        <p id ="reaction-love">${objNote.love} </p> <img src="https://purepng.com/public/uploads/medium/heart-icon-s4k.png" id="love" />
+        <button type ="button" id= "menos"> MENOS </button>
+        </div>
     </div>
   `;
 
@@ -39,16 +43,21 @@ const itemNote = (objNote) => {
       </div>
       `;
       console.log(post.querySelector(`#btn-edit-${objNote.id}`));
+      post.querySelector('#input-edit-note').value = objNote.title;
       post.querySelector(`#btn-edit-${objNote.id}`)
         .addEventListener('click', () => editNoteOnSubmit(objNote));
       // divElement.querySelector(`#btn-edit-${objNote.id}`).style.display = 'block';
       return post;
     });
-
+  // agregando evento click al btn-love
+  divElement.querySelector('#love')
+    .addEventListener('click', () => countLoveOnClick(objNote));
+  // agregando evento click al btn-menos
+  divElement.querySelector('#menos')
+    .addEventListener('click', () => menosLove(objNote));
   // agregando evento de click al btn eliminar una nota
   divElement.querySelector(`#btn-deleted-${objNote.id}`)
     .addEventListener('click', () => deleteNoteOnClick(objNote));
-
   return divElement;
 };
 
@@ -89,7 +98,9 @@ export default (notes) => {
       </div>
     </section>
   `;
+
   home.innerHTML = formContent;
+
   const btnLogOut = home.querySelector('#btn-cerrar');
   btnLogOut.addEventListener('click', signOutSubmit);
   const buttonAddNote = home.querySelector('#btn-add-note');
