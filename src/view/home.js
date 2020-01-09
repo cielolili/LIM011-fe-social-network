@@ -1,7 +1,7 @@
 /* eslint-disable import/named */
 /* eslint-disable import/extensions */
 import {
-  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editNoteOnSubmit, countLoveOnClick, menosLove,
+  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editNoteOnSubmit, countLoveOnClick,
 } from '../view-controller.js';
 
 const itemNote = (objNote) => {
@@ -18,21 +18,21 @@ const itemNote = (objNote) => {
         <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
         <div class="date">
           <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p>
-          <p id ="nombre-usuario">Publicado el día ${objNote.date.toDate()}</p>
+          <p>Publicado el día ${objNote.date.toDate()}</p>
         </div>
       </div>
       <section class="texto-post" id="texto-post-${objNote.id}">
         <p>${objNote.title}</p>
-        </section>
-        <div class = "reactions">
-        <p id ="reaction-love">${objNote.love} </p> <img src="https://purepng.com/public/uploads/medium/heart-icon-s4k.png" id="love" />
-        <button type ="button" id= "menos"> MENOS </button>
+      </section>
+      <div class = "reactions">
+        <span id ="reaction-love">${objNote.love} </span> <img src="https://purepng.com/public/uploads/medium/heart-icon-s4k.png" id="love" />
+      <span> Le dieron amor: ${objNote.lovers}</span>
+        <button type="button" id="menosLove"> Dislike </button>
         </div>
     </div>
   `;
 
-  // divElement.querySelector(`#btn-edit-${objNote.id}`).style.display = 'none';
-
+  // agregando evemto click al btn pen para editar
   divElement.querySelector(`#btn-pen-${objNote.id}`)
     .addEventListener('click', () => {
       const post = document.querySelector(`#texto-post-${objNote.id}`);
@@ -40,24 +40,28 @@ const itemNote = (objNote) => {
       <div class="">
         <textarea id="input-edit-note"></textarea>
         <button id="btn-edit-${objNote.id}">Guardar cambios</button>
+        <button id="cancel">Cancelar</button>
       </div>
       `;
       console.log(post.querySelector(`#btn-edit-${objNote.id}`));
+      // post.querySelector('#cancel').addEventListener('click', () => );
       post.querySelector('#input-edit-note').value = objNote.title;
+      // agregando evento click al btn editar nota
       post.querySelector(`#btn-edit-${objNote.id}`)
         .addEventListener('click', () => editNoteOnSubmit(objNote));
-      // divElement.querySelector(`#btn-edit-${objNote.id}`).style.display = 'block';
       return post;
     });
-  // agregando evento click al btn-love
+
+  // agregando evento click al btn love
   divElement.querySelector('#love')
     .addEventListener('click', () => countLoveOnClick(objNote));
-  // agregando evento click al btn-menos
-  divElement.querySelector('#menos')
-    .addEventListener('click', () => menosLove(objNote));
+  // agregando evento click al btn-menosLove
+  /* divElement.querySelector('#menosLove')
+    .addEventListener('click', () => menosLove(objNote)); */
   // agregando evento de click al btn eliminar una nota
   divElement.querySelector(`#btn-deleted-${objNote.id}`)
     .addEventListener('click', () => deleteNoteOnClick(objNote));
+
   return divElement;
 };
 
@@ -81,7 +85,7 @@ export default (notes) => {
         </div>
         <div class="info-usuario"> 
         <img src="${user.photoURL}" class="foto-usuario">
-        <div><h3 id ="nombre-usuario">${user.displayName}</h3></div>
+        <div><h3 class ="user-prof-name">${user.displayName}</h3></div>
         </div>
       </figure>
       <main>

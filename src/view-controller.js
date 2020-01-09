@@ -4,7 +4,6 @@
 import {
   signIn, logIn, googleLogin, facebookLogin, signOut,
   addNote, deleteNote, saveUsers, editNote, countLove,
-// eslint-disable-next-line import/named
 } from './controller/controller-firebase.js';
 
 const changeHash = (hash) => {
@@ -100,11 +99,8 @@ export const editNoteOnSubmit = (objNote) => {
 };
 
 export const deleteNoteOnClick = (objNote) => deleteNote(objNote.id);
+
 export const countLoveOnClick = (objNote) => {
   const i = +1;
-  countLove(objNote, i);
-};
-export const menosLove = (objNote) => {
-  const i = -1;
   countLove(objNote, i);
 };
