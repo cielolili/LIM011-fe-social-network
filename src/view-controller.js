@@ -71,10 +71,11 @@ export const signOutSubmit = () => {
 export const addNoteOnSubmit = (event) => {
   event.preventDefault();
   const input = document.getElementById('input-new-note');
+  const select = document.getElementById('privacy');
   if (input.value === '') {
     alert('Campos vacíos');
   } else {
-    addNote(input.value)
+    addNote(input.value, select.value)
       .then((docRef) => {
         input.value = '';
         console.log('Document written with ID: ', docRef.id);
@@ -101,6 +102,10 @@ export const editNoteOnSubmit = (objNote) => {
 export const deleteNoteOnClick = (objNote) => deleteNote(objNote.id);
 
 export const countLoveOnClick = (objNote) => {
+  const i = +1;
+  countLove(objNote, i);
+};
+export const menosLoveOnClick = (objNote) => {
   const i = +1;
   countLove(objNote, i);
 };

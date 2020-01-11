@@ -5,7 +5,7 @@ export const logIn = (email, password) => firebase.auth().signInWithEmailAndPass
 export const saveUsers = () => {
   const user = firebase.auth().currentUser;
   firebase.firestore().collection('users').doc(user.uid).set({
-    usuario: user.displayName,
+    user: user.displayName,
     avatar: user.photoURL,
     uid: user.uid,
     email: user.email,
@@ -23,12 +23,13 @@ export const facebookLogin = () => {
 export const signOut = () => firebase.auth().signOut();
 
 
-export const addNote = (textNewNote) => firebase.firestore().collection('notes').add({
+export const addNote = (textNewNote, privacidad) => firebase.firestore().collection('notes').add({
   title: textNewNote,
-  usuario: firebase.auth().currentUser.displayName,
+  user: firebase.auth().currentUser.displayName,
   avatar: firebase.auth().currentUser.photoURL,
   uid: firebase.auth().currentUser.uid,
   date: firebase.firestore.Timestamp.fromDate(new Date()),
+  privacy: privacidad,
   love: 0,
   lovers: [],
 });
@@ -42,8 +43,15 @@ export const deleteNote = (idNote) => firebase.firestore().collection('notes').d
 export const getNotes = (callback) => firebase.firestore().collection('notes').orderBy('date', 'desc')
   .onSnapshot((querySnapshot) => {
     const dato = [];
+    const user = firebase.auth().currentUser;
     querySnapshot.forEach((doc) => {
-      dato.push({ id: doc.id, ...doc.data() });
+      if (doc.data().privacy === 'public') {
+        console.log(doc.data().privacy);
+        dato.push({ id: doc.id, ...doc.data() });
+      } if (doc.data().privacy === 'private' && doc.data().uid === user.uid) {
+        dato.push({ id: doc.id, ...doc.data() });
+        console.log(doc.data().privacy);
+      }
     });
     callback(dato);
   });

@@ -17,7 +17,7 @@ const itemNote = (objNote) => {
       <div class="photo-avatar">
         <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
         <div class="date">
-          <p id ="nombre-usuario">Publicado por ${objNote.usuario}</p>
+          <p id ="nombre-usuario">Publicado por ${objNote.user}</p>
           <p>Publicado el día ${objNote.date.toDate()}</p>
         </div>
       </div>
@@ -26,8 +26,7 @@ const itemNote = (objNote) => {
       </section>
       <div class = "reactions">
         <span id ="reaction-love">${objNote.love} </span> <img src="https://purepng.com/public/uploads/medium/heart-icon-s4k.png" id="love" />
-      <span> Le dieron amor: ${objNote.lovers}</span>
-        <button type="button" id="menosLove"> Dislike </button>
+        <span>Amaron tu publicación: ${objNote.lovers}</span>
         </div>
     </div>
   `;
@@ -44,6 +43,7 @@ const itemNote = (objNote) => {
       </div>
       `;
       console.log(post.querySelector(`#btn-edit-${objNote.id}`));
+      console.log(post.querySelector(`#btn-edit-${objNote.id}`));
       // post.querySelector('#cancel').addEventListener('click', () => );
       post.querySelector('#input-edit-note').value = objNote.title;
       // agregando evento click al btn editar nota
@@ -55,9 +55,6 @@ const itemNote = (objNote) => {
   // agregando evento click al btn love
   divElement.querySelector('#love')
     .addEventListener('click', () => countLoveOnClick(objNote));
-  // agregando evento click al btn-menosLove
-  /* divElement.querySelector('#menosLove')
-    .addEventListener('click', () => menosLove(objNote)); */
   // agregando evento de click al btn eliminar una nota
   divElement.querySelector(`#btn-deleted-${objNote.id}`)
     .addEventListener('click', () => deleteNoteOnClick(objNote));
@@ -70,37 +67,41 @@ export default (notes) => {
   home.classList.add('home-style');
   const user = firebase.auth().currentUser;
   const formContent = `
-    <nav>
-      <ul>
+  <nav>
+    <ul>
         <li><a id="btn-profile">Perfil</a></li>
         <li><a id="btn-home">Inicio</a></li>
-        <li><a id="btn-cerrar">Cerrar sesión</a></li>
-      </ul>
-    </nav>
-    <!-- form add note -->
+       <li><a id="btn-cerrar">Cerrar sesión</a></li>
+  </ul>
+  </nav>
+  <!-- form add note -->
     <section>
-      <figure>
-        <div class="portada">
-        
-        </div>
-        <div class="info-usuario"> 
-        <img src="${user.photoURL}" class="foto-usuario">
-        <div><h3 class ="user-prof-name">${user.displayName}</h3></div>
-        </div>
-      </figure>
-      <main>
-        <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
-        <section id="botones-post">
-        <button id="btn-subir-img"> imagen </button>
-        <button type="button" id="btn-add-note">Publicar</button>
-        </section>
-      </main>
+    <figure>
+       <div class="portada">
+       </div>
+  <div class="info-usuario"> 
+     <img src="${user.photoURL}" class="foto-usuario">
+       <div><h3 class ="user-prof-name">${user.displayName}</h3></div>
+         </div>
+    </figure>
+  <main>
+  <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
+    <section id="botones-post">
+    <section id="botones-post">
+    <select name="select" id="privacy">
+      <span> <option value="public">Publico</option>
+      <option value="private">Privado</option></span>
+    </select>
+       <button id="btn-subir-img"> imagen </button>
+       <button type="button" id="btn-add-note">Publicar</button>
     </section>
-    <!-- notes -->
-    <section>
-      <div id="notes-list">
-      </div>
-    </section>
+  </main>
+  </section>
+  <!-- notes -->
+  <section>
+  <div id="notes-list">
+  </div>
+  </section>
   `;
 
   home.innerHTML = formContent;
