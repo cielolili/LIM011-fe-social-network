@@ -102,8 +102,14 @@ export const editNoteOnSubmit = (objNote) => {
 export const deleteNoteOnClick = (objNote) => deleteNote(objNote.id);
 
 export const countLoveOnClick = (objNote) => {
-  const i = +1;
-  countLove(objNote, i);
+  const user = firebase.auth().currentUser;
+  objNote.lovers.forEach((element) => {
+    if (user.uid !== element.uid) {
+      const i = +1;
+      countLove(objNote, i);
+    }
+    console.log(element);
+  });
 };
 export const menosLoveOnClick = (objNote) => {
   const i = +1;

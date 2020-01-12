@@ -55,7 +55,15 @@ export const getNotes = (callback) => firebase.firestore().collection('notes').o
     });
     callback(dato);
   });
-export const countLove = (objNote, i) => firebase.firestore().collection('notes').doc(objNote.id).update({
-  love: firebase.firestore.FieldValue.increment(i),
-  lovers: objNote.lovers.concat([firebase.auth().currentUser.displayName]),
-});
+export const countLove = (objNote, i) => {
+  const user = firebase.auth().currentUser;
+  firebase.firestore().collection('notes').doc(objNote.id).update({
+    love: firebase.firestore.FieldValue.increment(i),
+    lovers: objNote.lovers.concat([
+      {
+        user: user.displayName,
+        uid: user.uid,
+      },
+    ]),
+  });
+};
