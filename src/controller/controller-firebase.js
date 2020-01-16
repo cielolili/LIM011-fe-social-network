@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 export const signIn = (email, password) => firebase.auth().createUserWithEmailAndPassword(email, password);
 export const logIn = (email, password) => firebase.auth().signInWithEmailAndPassword(email, password);
+
 export const saveUsers = () => {
   const user = firebase.auth().currentUser;
   firebase.firestore().collection('users').doc(user.uid).set({
@@ -46,24 +47,31 @@ export const getNotes = (callback) => firebase.firestore().collection('notes').o
     const user = firebase.auth().currentUser;
     querySnapshot.forEach((doc) => {
       if (doc.data().privacy === 'public') {
-        console.log(doc.data().privacy);
         dato.push({ id: doc.id, ...doc.data() });
       } if (doc.data().privacy === 'private' && doc.data().uid === user.uid) {
         dato.push({ id: doc.id, ...doc.data() });
-        console.log(doc.data().privacy);
       }
     });
+
     callback(dato);
   });
-export const countLove = (objNote, i) => {
+export const countLove = (objNote) => {
   const user = firebase.auth().currentUser;
   firebase.firestore().collection('notes').doc(objNote.id).update({
-    love: firebase.firestore.FieldValue.increment(i),
+    love: firebase.firestore.FieldValue.increment(1),
     lovers: objNote.lovers.concat([
       {
         user: user.displayName,
         uid: user.uid,
       },
     ]),
+  });
+};
+
+export const dislike = (objNote) => {
+  const user = firebase.auth().currentUser;
+  firebase.firestore().collection('notes').doc(objNote.id).update({
+    love: firebase.firestore.FieldValue.increment(-1),
+    lovers: objNote.lovers.filter((element) => element.uid !== user.uid),
   });
 };

@@ -3,7 +3,7 @@
 /* eslint-disable import/extensions */
 import {
   signIn, logIn, googleLogin, facebookLogin, signOut,
-  addNote, deleteNote, saveUsers, editNote, countLove,
+  addNote, deleteNote, saveUsers, editNote, countLove, dislike,
 } from './controller/controller-firebase.js';
 
 const changeHash = (hash) => {
@@ -79,7 +79,7 @@ export const addNoteOnSubmit = (event) => {
       .then((docRef) => {
         input.value = '';
         console.log('Document written with ID: ', docRef.id);
-        console.log(docRef.id);
+        console.log(docRef);
       }).catch((error) => {
         input.value = '';
         console.error('Error adding document: ', error);
@@ -97,21 +97,17 @@ export const editNoteOnSubmit = (objNote) => {
       console.error('Error updating document: ', error);
       //  data.message = 'Lo sentimos, no se pudo agregar la nota';
     });
+  console.log(typeof objNote);
 };
 
 export const deleteNoteOnClick = (objNote) => deleteNote(objNote.id);
 
 export const countLoveOnClick = (objNote) => {
   const user = firebase.auth().currentUser;
-  objNote.lovers.forEach((element) => {
-    if (user.uid !== element.uid) {
-      const i = +1;
-      countLove(objNote, i);
-    }
-    console.log(element);
-  });
-};
-export const menosLoveOnClick = (objNote) => {
-  const i = +1;
-  countLove(objNote, i);
+  console.log(objNote.lovers.some((element) => element.uid === user.uid));
+  if (objNote.lovers.some((element) => element.uid === user.uid)) {
+    dislike(objNote);
+  } else {
+    countLove(objNote);
+  }
 };

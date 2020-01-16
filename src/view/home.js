@@ -17,7 +17,7 @@ const itemNote = (objNote) => {
       <div class="photo-avatar">
         <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
         <div class="date">
-          <p id ="nombre-usuario">Publicado por ${objNote.user}</p>
+          <p id ="nombre-usuario"> Publicado por ${objNote.user}</p>
           <p>Publicado el día ${objNote.date.toDate()}</p>
         </div>
       </div>
@@ -26,7 +26,7 @@ const itemNote = (objNote) => {
       </section>
       <div class = "reactions">
         <span id ="reaction-love">${objNote.love} </span> <img src="https://purepng.com/public/uploads/medium/heart-icon-s4k.png" id="love" />
-        <span>Amaron tu publicación: ${objNote.lovers}</span>
+
         </div>
     </div>
   `;
@@ -44,7 +44,6 @@ const itemNote = (objNote) => {
       `;
       console.log(post.querySelector(`#btn-edit-${objNote.id}`));
       console.log(post.querySelector(`#btn-edit-${objNote.id}`));
-      // post.querySelector('#cancel').addEventListener('click', () => );
       post.querySelector('#input-edit-note').value = objNote.title;
       // agregando evento click al btn editar nota
       post.querySelector(`#btn-edit-${objNote.id}`)
@@ -76,31 +75,38 @@ export default (notes) => {
   </nav>
   <!-- form add note -->
     <section>
-    <figure>
-       <div class="portada">
-       </div>
-  <div class="info-usuario"> 
-     <img src="${user.photoURL}" class="foto-usuario">
-       <div><h3 class ="user-prof-name">${user.displayName}</h3></div>
-         </div>
-    </figure>
-  <main>
-  <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
-    <section id="botones-post">
-    <section id="botones-post">
-    <select name="select" id="privacy">
-      <span> <option value="public">Publico</option>
-      <option value="private">Privado</option></span>
-    </select>
-       <button id="btn-subir-img"> imagen </button>
-       <button type="button" id="btn-add-note">Publicar</button>
+      <figure>
+        <div class="portada">
+        
+        </div>
+        <div class="info-usuario"> 
+        <img src="${user.photoURL}" class="foto-usuario">
+        <div><h3 class ="user-prof-name">${user.displayName}</h3></div>
+        </div>
+      </figure>
+      <main>
+        <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
+        <section id="botones-post">
+        <select name="select" id="privacy">
+          <option value="public">Publico</option>
+          <option value="private">Privado</option>
+        </select>
+        <button id="btn-subir-img"> imagen </button>
+        <button type="button" id="btn-add-note">Publicar</button>
+        </section>
+      </main>
+    </section>
+    <!-- notes -->
+    <section>
+      <div id="notes-list">
+      </div>
     </section>
   </main>
-  </section>
+     </section>
   <!-- notes -->
-  <section>
-  <div id="notes-list">
-  </div>
+     <section>
+        <div id="notes-list">
+       </div>
   </section>
   `;
 
