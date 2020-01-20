@@ -1,7 +1,6 @@
-/* eslint-disable import/named */
-/* eslint-disable import/extensions */
 import {
-  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editNoteOnSubmit, countLoveOnClick,
+  signOutSubmit, addNoteOnSubmit, deleteNoteOnClick, editNoteOnSubmit,
+  countLoveOnClick, addCommentOnSubmit, deleteCommentsOnClick,
 } from '../view-controller.js';
 
 const itemNote = (objNote) => {
@@ -10,15 +9,14 @@ const itemNote = (objNote) => {
   divElement.innerHTML = `
     <div class="container-post">
     <div class="btn-post">
-    <span id="btn-deleted-${objNote.id}">${user.uid === objNote.uid ? '<img id="trash" src="imagenes/delete.png" title="Eliminar"/>' : ''}</span>
-    
-    <span id="btn-pen-${objNote.id}">${user.uid === objNote.uid ? '<img id="btn-pen" src="imagenes/edit-button.svg" title="Editar"/>' : ''}</span>
+    <span id="btn-deleted-${objNote.id}">${user.uid === objNote.uid ? '<img id="trash" src="imagenes/remove.png" title="Eliminar"/>' : ''}</span>
+    <span id="btn-pen-${objNote.id}">${user.uid === objNote.uid ? '<img id="btn-pen" src="imagenes/pencil.png" title="Editar"/>' : ''}</span>
     </div>
       <div class="photo-avatar">
         <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
         <div class="date">
-          <p id ="nombre-usuario"> Publicado por ${objNote.user}</p>
-          <p>Publicado el día ${objNote.date.toDate()}</p>
+          <p id ="nombre-usuario">Publicado por ${objNote.user}</p>
+          <p id ="date-post">${objNote.date.toDate()}</p>
         </div>
       </div>
       <section class="texto-post" id="texto-post-${objNote.id}">
@@ -26,12 +24,17 @@ const itemNote = (objNote) => {
       </section>
       <div class = "reactions">
         <span id ="reaction-love">${objNote.love} </span> <img src="https://purepng.com/public/uploads/medium/heart-icon-s4k.png" id="love" />
-
-        </div>
+        <span id="btn-comment-${objNote.id}">'<img id="btn-comment" src="imagenes/comment.png" title="comentar"/></span> 
+      </div>
+    </div>
+    <ul id="aca-se-pega"></ul>
+    <div class = "comments">
+      <div id = "comments-${objNote.id}">
+      </div>
     </div>
   `;
 
-  // agregando evemto click al btn pen para editar
+  // Agregando evento click al btn pen para MOSTRAR INPUT Y BOTÓN EDITAR
   divElement.querySelector(`#btn-pen-${objNote.id}`)
     .addEventListener('click', () => {
       const post = document.querySelector(`#texto-post-${objNote.id}`);
@@ -42,19 +45,54 @@ const itemNote = (objNote) => {
         <button id="cancel">Cancelar</button>
       </div>
       `;
-      console.log(post.querySelector(`#btn-edit-${objNote.id}`));
-      console.log(post.querySelector(`#btn-edit-${objNote.id}`));
+      // Agregando evento click al btn CANCELAR EDICIÓN de post
+      post.querySelector('#cancel').addEventListener('click', () => {
+        post.innerHTML = `<p>${objNote.title}</p>`;
+      });
       post.querySelector('#input-edit-note').value = objNote.title;
-      // agregando evento click al btn editar nota
+      // Agregando evento click al btn EDITAR POST
       post.querySelector(`#btn-edit-${objNote.id}`)
         .addEventListener('click', () => editNoteOnSubmit(objNote));
       return post;
     });
 
-  // agregando evento click al btn love
+  // Agregando evento click a btn comentar para AGREGAR COMENTARIO
+  divElement.querySelector(`#btn-comment-${objNote.id}`).addEventListener('click', () => {
+    const comment = document.querySelector(`#comments-${objNote.id}`);
+    comment.innerHTML = `
+      <textarea id="input-comment-note" placeholder="Escribir un comentario..."></textarea> 
+      <span id="btn-add-${objNote.id}"><img id="btn-add-comment" src="imagenes/send.png" title="agregar"/></span>
+     `;
+    // Evento click a btn add comment
+    comment.querySelector(`#btn-add-${objNote.id}`)
+      .addEventListener('click', () => addCommentOnSubmit(objNote));
+    return comment;
+  });
+
+  // MOSTRANDO COMENTARIOS de cada post
+  objNote.comments.forEach((element, index) => {
+    const ul = divElement.querySelector('#aca-se-pega');
+    const liElement = document.createElement('li');
+    liElement.innerHTML = `
+      <img src="${element.photoUserComment}" class="avatar-usuario">
+      <span>${element.userComment}</span>
+      <span id="btn-deleted-${index}">${user.uid === element.uidComment || user.uid === objNote.uid ? '<img id="trash" src="imagenes/remove.png" title="Eliminar"/>' : ''}</span>
+      <p id="element-comment">${element.comment}</p>
+    `;
+    ul.appendChild(liElement);
+    // Agregando evento click a btn BORRAR COMENTARIO
+    liElement.querySelector(`#btn-deleted-${index}`)
+      .addEventListener('click', () => {
+        console.log(`#btn-deleted-${index}`);
+        deleteCommentsOnClick(objNote, index);
+      });
+  });
+
+  // Agregando evento click al btn LOVE de un post
   divElement.querySelector('#love')
     .addEventListener('click', () => countLoveOnClick(objNote));
-  // agregando evento de click al btn eliminar una nota
+
+  // Agregando evento de click al btn ELIMINAR UNA NOTA
   divElement.querySelector(`#btn-deleted-${objNote.id}`)
     .addEventListener('click', () => deleteNoteOnClick(objNote));
 
@@ -85,12 +123,16 @@ export default (notes) => {
         </div>
       </figure>
       <main>
+      <!-- post privacy -->
+      <div class ="post-privacy">
+      <label> Privacidad : </label>
+      <select id="privacy"> 
+      <option value="public"> Público </option>
+      <option value="private"> Privado </option>
+      </select>
+      </div>
         <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
         <section id="botones-post">
-        <select name="select" id="privacy">
-          <option value="public">Publico</option>
-          <option value="private">Privado</option>
-        </select>
         <button id="btn-subir-img"> imagen </button>
         <button type="button" id="btn-add-note">Publicar</button>
         </section>
@@ -111,11 +153,10 @@ export default (notes) => {
   `;
 
   home.innerHTML = formContent;
-
   const btnLogOut = home.querySelector('#btn-cerrar');
   btnLogOut.addEventListener('click', signOutSubmit);
-  const buttonAddNote = home.querySelector('#btn-add-note');
   const div = home.querySelector('#notes-list');
+  const buttonAddNote = home.querySelector('#btn-add-note');
   notes.forEach((note) => {
     div.appendChild(itemNote(note));
   });

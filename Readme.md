@@ -148,7 +148,7 @@ anterior en la siguiente sección.
 ### HTML y CSS
 
 * [x] [HTML semántico](https://developer.mozilla.org/en-US/docs/Glossary/Semantics#Semantics_in_HTML)
-* [ ] [CSS `flexbox`](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+* [x] [CSS `flexbox`](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 * [x] Construir tu aplicación respetando el diseño realizado (maquetación).
 
 ### DOM y Web APIs
