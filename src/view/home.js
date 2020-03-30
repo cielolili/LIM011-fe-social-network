@@ -16,7 +16,7 @@ const itemNote = (objNote) => {
         <p>${objNote.avatar === null ? '<img src="../imagenes/user.svg" class="avatar-usuario">' : `<img src="${objNote.avatar}" class="avatar-usuario">`}</p>
         <div class="date">
           <p id ="nombre-usuario">Publicado por ${objNote.user}</p>
-          <p id ="date-post">${objNote.date.toDate()}</p>
+          <p class="nombre-usuario"id ="date-post">${objNote.date.toDate()}</p>
         </div>
       </div>
       <section class="texto-post" id="texto-post-${objNote.id}">
@@ -26,8 +26,8 @@ const itemNote = (objNote) => {
         <span id ="reaction-love">${objNote.love} </span> <img src="https://purepng.com/public/uploads/medium/heart-icon-s4k.png" id="love" />
         <span id="btn-comment-${objNote.id}">'<img id="btn-comment" src="imagenes/comment.png" title="comentar"/></span> 
       </div>
+      <ul id="aca-se-pega"></ul>
     </div>
-    <ul id="aca-se-pega"></ul>
     <div class = "comments">
       <div id = "comments-${objNote.id}">
       </div>
@@ -74,10 +74,20 @@ const itemNote = (objNote) => {
     const ul = divElement.querySelector('#aca-se-pega');
     const liElement = document.createElement('li');
     liElement.innerHTML = `
-      <img src="${element.photoUserComment}" class="avatar-usuario">
-      <span>${element.userComment}</span>
-      <span id="btn-deleted-${index}">${user.uid === element.uidComment || user.uid === objNote.uid ? '<img id="trash" src="imagenes/remove.png" title="Eliminar"/>' : ''}</span>
+    <div class="photo-avatar">
+    <img src="${element.photoUserComment}" class="avatar-usuario">
+    <div class="date">
+    <div class="btn-post">
+    <span id="btn-deleted-${index}">${user.uid === element.uidComment || user.uid === objNote.uid ? '<img id="trash" src="imagenes/remove.png" title="Eliminar"/>' : ''}</span>
+    </div>
+    <span id ="nombre-usuario"> Comentario realizado por: ${element.userComment}</span>
       <p id="element-comment">${element.comment}</p>
+      </div>
+      </div>
+      <section>  </section>
+      </div>
+      </div>
+    
     `;
     ul.appendChild(liElement);
     // Agregando evento click a btn BORRAR COMENTARIO
@@ -105,50 +115,44 @@ export default (notes) => {
   const user = firebase.auth().currentUser;
   const formContent = `
   <nav>
-    <ul>
+    <ul id="li-profile">
         <li><a id="btn-profile">Perfil</a></li>
         <li><a id="btn-home">Inicio</a></li>
        <li><a id="btn-cerrar">Cerrar sesión</a></li>
   </ul>
   </nav>
   <!-- form add note -->
-    <section>
-      <figure>
-        <div class="portada">
-        
-        </div>
-        <div class="info-usuario"> 
-        <img src="${user.photoURL}" class="foto-usuario">
-        <div><h3 class ="user-prof-name">${user.displayName}</h3></div>
-        </div>
-      </figure>
-      <main>
-      <!-- post privacy -->
-      <div class ="post-privacy">
-      <label> Privacidad : </label>
-      <select id="privacy"> 
-      <option value="public"> Público </option>
-      <option value="private"> Privado </option>
-      </select>
+  <!-- form add note -->
+  <section>
+    <figure>
+      <div class="portada">
+      
       </div>
-        <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
-        <section id="botones-post">
-        <button id="btn-subir-img"> imagen </button>
-        <button type="button" id="btn-add-note">Publicar</button>
-        </section>
-      </main>
-    </section>
-    <!-- notes -->
-    <section>
-      <div id="notes-list">
+      <div class="info-usuario"> 
+      <p>${user.photoURL === null ? '<img src="imagenes/user.png" class="avatar-usuario">' : `<img src="${user.photoURL}" class="avatar-usuario">`}</p>
+      <div>${user.displayName === null ? `<h3 class ="user-prof-name">${user.email}</h3>` : `<h3 class ="user-prof-name">${user.displayName}</h3> `}</div>
       </div>
-    </section>
-  </main>
-     </section>
+    </figure>
+    <main>
+    <!-- post privacy -->
+    <div class ="post-privacy">
+    <label> Privacidad : </label>
+    <select id="privacy"> 
+    <option value="public"> Público </option>
+    <option value="private"> Privado </option>
+    </select>
+    </div>
+      <textarea name="" id="input-new-note" rows="4" cols="50" placeholder="¿Que quieres compartir?"></textarea>
+      <section id="botones-post">
+      <button id="btn-subir-img"> imagen </button>
+      <button type="button" id="btn-add-note">Publicar</button>
+      </section>
+    </main>
+  </section>
   <!-- notes -->
-     <section>
-        <div id="notes-list">
-       </div>
+  <section>
+    <div id="notes-list">
+    </div>
   </section>
   `;
 
